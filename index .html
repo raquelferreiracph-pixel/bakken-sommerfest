@@ -1,0 +1,205 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500&display=swap');
+  .bk-wrap { font-family: 'Inter', sans-serif; background: #F5F0E8; border-radius: 16px; overflow: hidden; }
+  .bk-hero { background: #F5F0E8; padding: 2rem 2rem 0; text-align: center; }
+  .bk-title { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 900; color: #1a1a1a; margin: 0 0 0.25rem; letter-spacing: -0.5px; }
+  .bk-subtitle { font-size: 12px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .bk-body { padding: 1.5rem 2rem 2rem; }
+  .bk-section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 1rem; font-weight: 500; }
+  .bk-vote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 2rem; }
+  .bk-vote-btn { background: white; border: 1.5px solid #ddd; border-radius: 10px; padding: 14px 8px; cursor: pointer; transition: all 0.18s; text-align: center; }
+  .bk-vote-btn:hover { border-color: #1a1a1a; background: #eee8d8; }
+  .bk-vote-btn.selected { border-color: #1a1a1a; background: #1a1a1a; color: white; }
+  .bk-vote-btn .day { font-size: 22px; font-weight: 700; font-family: 'Playfair Display', serif; display: block; }
+  .bk-vote-btn .month { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; display: block; }
+  .bk-vote-btn .votes-count { font-size: 11px; margin-top: 6px; display: block; opacity: 0.6; }
+  .bk-rest-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 2rem; }
+  .bk-rest-btn { background: white; border: 1.5px solid #ddd; border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.18s; text-align: left; display: flex; align-items: center; gap: 10px; }
+  .bk-rest-btn:hover { border-color: #1a1a1a; background: #eee8d8; }
+  .bk-rest-btn.selected { border-color: #C8A96E; background: #FBF5E6; }
+  .bk-rest-icon { width: 32px; height: 32px; border-radius: 8px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+  .bk-rest-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .bk-rest-votes { font-size: 11px; color: #888; margin-top: 2px; }
+  .bk-rest-btn.selected .bk-rest-name { color: #7A5C1E; }
+  .bk-divider { border: none; border-top: 1px solid #ddd; margin: 1.5rem 0; }
+  .bk-name-row { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+  .bk-name-row input { flex: 1; border: 1.5px solid #ddd; border-radius: 10px; padding: 10px 14px; font-size: 14px; background: white; outline: none; font-family: 'Inter', sans-serif; }
+  .bk-name-row input:focus { border-color: #1a1a1a; }
+  .bk-submit { width: 100%; background: #1a1a1a; color: #F5F0E8; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.15s; }
+  .bk-submit:hover { background: #333; }
+  .bk-submit:disabled { background: #999; cursor: default; }
+  .bk-results { background: white; border-radius: 10px; padding: 1.25rem; margin-top: 1rem; border: 1.5px solid #eee; }
+  .bk-bar-row { margin-bottom: 10px; }
+  .bk-bar-label { font-size: 12px; color: #555; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .bk-bar-bg { background: #eee; border-radius: 4px; height: 8px; }
+  .bk-bar-fill { background: #1a1a1a; border-radius: 4px; height: 8px; transition: width 0.4s; }
+  .bk-bar-fill.gold { background: #C8A96E; }
+  .bk-thank { text-align: center; padding: 1rem 0 0; font-size: 14px; color: #555; }
+</style>
+
+<div class="bk-wrap">
+  <div class="bk-hero">
+    <div class="bk-title">Bakkens 5-kamp</div>
+    <div class="bk-subtitle">Sommerfest 2026 — stem på dato og restaurant</div>
+    <svg viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin-top:0.5rem;">
+      <rect width="700" height="130" fill="#F5F0E8"/>
+      <!-- ground -->
+      <rect x="0" y="115" width="700" height="15" fill="#1a1a1a"/>
+      <!-- roller coaster structure -->
+      <polyline points="30,115 30,20 80,20 80,60 120,20 160,60 160,115" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+      <polyline points="30,115 55,60 80,20" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+      <polyline points="80,20 100,60 120,20" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+      <polyline points="120,20 140,60 160,20" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+      <!-- trees left -->
+      <ellipse cx="15" cy="90" rx="14" ry="22" fill="#1a1a1a"/>
+      <rect x="13" y="108" width="4" height="10" fill="#1a1a1a"/>
+      <!-- big tent / cirkusrev -->
+      <polygon points="270,115 270,50 320,20 370,50 370,115" fill="#1a1a1a"/>
+      <polygon points="290,115 290,60 320,35 350,60 350,115" fill="#F5F0E8"/>
+      <text x="320" y="90" font-family="serif" font-size="11" fill="#1a1a1a" text-anchor="middle" font-weight="bold">CIRKUSREVYEN</text>
+      <!-- clown figures -->
+      <circle cx="220" cy="75" r="12" fill="#1a1a1a"/>
+      <rect x="213" y="87" width="14" height="28" fill="#1a1a1a" rx="4"/>
+      <circle cx="255" cy="72" r="11" fill="#1a1a1a"/>
+      <rect x="248" y="83" width="14" height="30" fill="#1a1a1a" rx="4"/>
+      <!-- ferris wheel -->
+      <circle cx="460" cy="72" r="42" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+      <circle cx="460" cy="72" r="6" fill="#1a1a1a"/>
+      <line x1="460" y1="30" x2="460" y2="114" stroke="#1a1a1a" stroke-width="2"/>
+      <line x1="418" y1="72" x2="502" y2="72" stroke="#1a1a1a" stroke-width="2"/>
+      <line x1="431" y1="43" x2="489" y2="101" stroke="#1a1a1a" stroke-width="2"/>
+      <line x1="431" y1="101" x2="489" y2="43" stroke="#1a1a1a" stroke-width="2"/>
+      <rect x="456" y="24" width="8" height="10" fill="#1a1a1a" rx="2"/>
+      <rect x="493" y="68" width="8" height="10" fill="#1a1a1a" rx="2"/>
+      <rect x="456" y="110" width="8" height="10" fill="#1a1a1a" rx="2"/>
+      <rect x="419" y="68" width="8" height="10" fill="#1a1a1a" rx="2"/>
+      <rect x="453" y="115" width="14" height="5" fill="#1a1a1a"/>
+      <!-- house / Korsbæk -->
+      <rect x="540" y="75" width="60" height="40" fill="#1a1a1a" rx="2"/>
+      <polygon points="540,75 570,50 600,75" fill="#1a1a1a"/>
+      <rect x="553" y="90" width="12" height="25" fill="#F5F0E8" rx="1"/>
+      <rect x="575" y="88" width="14" height="12" fill="#F5F0E8" rx="1"/>
+      <text x="570" y="100" font-family="sans-serif" font-size="8" fill="#1a1a1a" text-anchor="middle">KORSBÆK</text>
+      <!-- ghost -->
+      <ellipse cx="650" cy="80" rx="12" ry="15" fill="#1a1a1a"/>
+      <rect x="638" y="90" width="24" height="12" fill="#1a1a1a"/>
+      <ellipse cx="643" cy="102" rx="5" ry="5" fill="#F5F0E8"/>
+      <ellipse cx="657" cy="102" rx="5" ry="5" fill="#F5F0E8"/>
+      <!-- trees right -->
+      <ellipse cx="685" cy="88" rx="13" ry="20" fill="#1a1a1a"/>
+      <rect x="683" y="105" width="4" height="12" fill="#1a1a1a"/>
+    </svg>
+  </div>
+
+  <div class="bk-body">
+    <div class="bk-section-label">Hvilken dato passer dig?</div>
+    <div class="bk-vote-grid" id="date-grid">
+      <button class="bk-vote-btn" data-date="14" onclick="voteDate(this,'14')">
+        <span class="day">14</span><span class="month">August</span><span class="votes-count" id="dc-14">0 stemmer</span>
+      </button>
+      <button class="bk-vote-btn" data-date="21" onclick="voteDate(this,'21')">
+        <span class="day">21</span><span class="month">August</span><span class="votes-count" id="dc-21">0 stemmer</span>
+      </button>
+      <button class="bk-vote-btn" data-date="28" onclick="voteDate(this,'28')">
+        <span class="day">28</span><span class="month">August</span><span class="votes-count" id="dc-28">0 stemmer</span>
+      </button>
+    </div>
+
+    <hr class="bk-divider">
+    <div class="bk-section-label">Hvilken restaurant foretrækker du?</div>
+    <div class="bk-rest-grid">
+      <button class="bk-rest-btn" onclick="voteRest(this,'American Diner')"><div class="bk-rest-icon">🍔</div><div><div class="bk-rest-name">American Diner</div><div class="bk-rest-votes" id="rc-0">0 stemmer</div></div></button>
+      <button class="bk-rest-btn" onclick="voteRest(this,'Grill & Bøfhus')"><div class="bk-rest-icon">🥩</div><div><div class="bk-rest-name">Grill & Bøfhus</div><div class="bk-rest-votes" id="rc-1">0 stemmer</div></div></button>
+      <button class="bk-rest-btn" onclick="voteRest(this,'Bondestuen')"><div class="bk-rest-icon">🍺</div><div><div class="bk-rest-name">Bondestuen</div><div class="bk-rest-votes" id="rc-2">0 stemmer</div></div></button>
+      <button class="bk-rest-btn" onclick="voteRest(this,'Elverdybet')"><div class="bk-rest-icon">☕</div><div><div class="bk-rest-name">Elverdybet</div><div class="bk-rest-votes" id="rc-3">0 stemmer</div></div></button>
+      <button class="bk-rest-btn" onclick="voteRest(this,'Hvide Hest')"><div class="bk-rest-icon">🐴</div><div><div class="bk-rest-name">Hvide Hest</div><div class="bk-rest-votes" id="rc-4">0 stemmer</div></div></button>
+      <button class="bk-rest-btn" onclick="voteRest(this,'Valentino')"><div class="bk-rest-icon">🍕</div><div><div class="bk-rest-name">Valentino</div><div class="bk-rest-votes" id="rc-5">0 stemmer</div></div></button>
+    </div>
+
+    <hr class="bk-divider">
+    <div class="bk-section-label">Dit navn</div>
+    <div class="bk-name-row">
+      <input type="text" id="voter-name" placeholder="Skriv dit navn her..." maxlength="40"/>
+    </div>
+    <button class="bk-submit" id="submit-btn" onclick="submitVote()">Stem nu</button>
+
+    <div id="results-area" style="display:none;margin-top:1.5rem;">
+      <div class="bk-section-label">Resultater</div>
+      <div class="bk-results">
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;">Dato</div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>14. august</span><span id="pct-14">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill" id="bar-14" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>21. august</span><span id="pct-21">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill" id="bar-21" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>28. august</span><span id="pct-28">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill" id="bar-28" style="width:0%"></div></div></div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin:16px 0 12px;">Restaurant</div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>American Diner</span><span id="pct-r0">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r0" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>Grill & Bøfhus</span><span id="pct-r1">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r1" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>Bondestuen</span><span id="pct-r2">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r2" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>Elverdybet</span><span id="pct-r3">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r3" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>Hvide Hest</span><span id="pct-r4">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r4" style="width:0%"></div></div></div>
+        <div class="bk-bar-row"><div class="bk-bar-label"><span>Valentino</span><span id="pct-r5">0%</span></div><div class="bk-bar-bg"><div class="bk-bar-fill gold" id="bar-r5" style="width:0%"></div></div></div>
+      </div>
+      <div class="bk-thank" id="thank-msg" style="display:none;">Tak for din stemme! 🎡</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const dateKeys=['14','21','28'];
+let votes={dates:{'14':0,'21':0,'28':0},rests:[0,0,0,0,0,0]};
+let myDate=null,myRest=null,hasVoted=false;
+
+function voteDate(btn,d){
+  if(hasVoted)return;
+  document.querySelectorAll('#date-grid .bk-vote-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  myDate=d;
+}
+function voteRest(btn,name){
+  if(hasVoted)return;
+  document.querySelectorAll('.bk-rest-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  myRest=btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+  const idx=['American Diner','Grill & Bøfhus','Bondestuen','Elverdybet','Hvide Hest','Valentino'].indexOf(myRest);
+  myRest=idx;
+}
+function submitVote(){
+  const name=document.getElementById('voter-name').value.trim();
+  if(myDate===null){alert('Vælg venligst en dato.');return;}
+  if(myRest===null){alert('Vælg venligst en restaurant.');return;}
+  if(!name){alert('Skriv dit navn.');return;}
+  votes.dates[myDate]++;
+  votes.rests[myRest]++;
+  hasVoted=true;
+  document.getElementById('submit-btn').disabled=true;
+  document.getElementById('submit-btn').textContent='Tak, '+name+'! ✓';
+  document.getElementById('voter-name').disabled=true;
+  updateCounts();updateBars();
+  document.getElementById('results-area').style.display='block';
+  document.getElementById('thank-msg').style.display='block';
+}
+function updateCounts(){
+  dateKeys.forEach(d=>{
+    const el=document.getElementById('dc-'+d);
+    if(el)el.textContent=votes.dates[d]+(votes.dates[d]===1?' stemme':' stemmer');
+  });
+  for(let i=0;i<6;i++){
+    const el=document.getElementById('rc-'+i);
+    if(el)el.textContent=votes.rests[i]+(votes.rests[i]===1?' stemme':' stemmer');
+  }
+}
+function updateBars(){
+  const dt=dateKeys.reduce((s,d)=>s+votes.dates[d],0);
+  dateKeys.forEach(d=>{
+    const p=dt?Math.round(votes.dates[d]/dt*100):0;
+    document.getElementById('bar-'+d).style.width=p+'%';
+    document.getElementById('pct-'+d).textContent=p+'%';
+  });
+  const rt=votes.rests.reduce((s,v)=>s+v,0);
+  for(let i=0;i<6;i++){
+    const p=rt?Math.round(votes.rests[i]/rt*100):0;
+    document.getElementById('bar-r'+i).style.width=p+'%';
+    document.getElementById('pct-r'+i).textContent=p+'%';
+  }
+}
+</script>
