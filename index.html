@@ -95,23 +95,23 @@ hr { border: none; border-top: 1px solid #ddd; margin: 1.5rem 0; }
   </div>
 
   <div class="body">
-    <div class="section-label">Which date works for you?</div>
+    <div class="section-label">Which dates work for you? (select all that apply)</div>
     <div class="date-grid" id="date-grid">
-      <button class="vote-btn" data-date="14" onclick="voteDate(this,'14')">
+      <button class="vote-btn" data-date="14" onclick="toggleDate(this,'14')">
         <span class="day">14</span><span class="month">August</span><span class="vc" id="dc-14">0 votes</span>
       </button>
-      <button class="vote-btn" data-date="21" onclick="voteDate(this,'21')">
+      <button class="vote-btn" data-date="21" onclick="toggleDate(this,'21')">
         <span class="day">21</span><span class="month">August</span><span class="vc" id="dc-21">0 votes</span>
       </button>
-      <button class="vote-btn" data-date="28" onclick="voteDate(this,'28')">
+      <button class="vote-btn" data-date="28" onclick="toggleDate(this,'28')">
         <span class="day">28</span><span class="month">August</span><span class="vc" id="dc-28">0 votes</span>
       </button>
     </div>
 
     <hr>
-    <div class="section-label">Which restaurant do you prefer?</div>
+    <div class="section-label">Which restaurants are you happy with? (select all that apply)</div>
     <div class="rest-grid">
-      <button class="rest-btn" onclick="voteRest(this,0)">
+      <button class="rest-btn" onclick="toggleRest(this,0)">
         <div class="rest-icon">🍕</div>
         <div style="flex:1">
           <div class="rest-name">Valentino</div>
@@ -122,7 +122,7 @@ hr { border: none; border-top: 1px solid #ddd; margin: 1.5rem 0; }
           <div class="rc" id="rc-0">0 votes</div>
         </div>
       </button>
-      <button class="rest-btn" onclick="voteRest(this,1)">
+      <button class="rest-btn" onclick="toggleRest(this,1)">
         <div class="rest-icon">🌶️</div>
         <div style="flex:1">
           <div class="rest-name">Indian Bites</div>
@@ -145,11 +145,11 @@ hr { border: none; border-top: 1px solid #ddd; margin: 1.5rem 0; }
     <div id="results-area" style="display:none;margin-top:1.5rem;">
       <div class="section-label">Results so far</div>
       <div class="results">
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;">Date</div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;">Date <span id="date-voter-count" style="font-weight:400;color:#999;font-size:11px;"></span></div>
         <div class="bar-row"><div class="bar-label"><span>14 August</span><span id="pct-14">0%</span></div><div class="bar-bg"><div class="bar-fill" id="bar-14" style="width:0%"></div></div></div>
         <div class="bar-row"><div class="bar-label"><span>21 August</span><span id="pct-21">0%</span></div><div class="bar-bg"><div class="bar-fill" id="bar-21" style="width:0%"></div></div></div>
         <div class="bar-row"><div class="bar-label"><span>28 August</span><span id="pct-28">0%</span></div><div class="bar-bg"><div class="bar-fill" id="bar-28" style="width:0%"></div></div></div>
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin:16px 0 12px;">Restaurant</div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a;margin:16px 0 12px;">Restaurant <span id="rest-voter-count" style="font-weight:400;color:#999;font-size:11px;"></span></div>
         <div class="bar-row"><div class="bar-label"><span>Valentino</span><span id="pct-r0">0%</span></div><div class="bar-bg"><div class="bar-fill gold" id="bar-r0" style="width:0%"></div></div></div>
         <div class="bar-row"><div class="bar-label"><span>Indian Bites</span><span id="pct-r1">0%</span></div><div class="bar-bg"><div class="bar-fill gold" id="bar-r1" style="width:0%"></div></div></div>
       </div>
@@ -167,35 +167,38 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const db = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 const dateKeys = ['14','21','28'];
-let votes = {dates:{'14':0,'21':0,'28':0}, rests:[0,0]};
-let myDate = null, myRest = null;
+let votes = { dates:{'14':0,'21':0,'28':0}, rests:[0,0], total: 0 };
+let myDates = new Set(), myRests = new Set();
 let hasVoted = !!localStorage.getItem('bsf_voted');
 
-function voteDate(btn, d) {
+function toggleDate(btn, d) {
   if (hasVoted) return;
-  document.querySelectorAll('#date-grid .vote-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  myDate = d;
+  if (myDates.has(d)) { myDates.delete(d); btn.classList.remove('selected'); }
+  else { myDates.add(d); btn.classList.add('selected'); }
 }
 
-function voteRest(btn, idx) {
+function toggleRest(btn, idx) {
   if (hasVoted) return;
-  document.querySelectorAll('.rest-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  myRest = idx;
+  if (myRests.has(idx)) { myRests.delete(idx); btn.classList.remove('selected'); }
+  else { myRests.add(idx); btn.classList.add('selected'); }
 }
 
 async function submitVote() {
   const name = document.getElementById('voter-name').value.trim();
-  if (myDate === null) { alert('Please select a date.'); return; }
-  if (myRest === null) { alert('Please select a restaurant.'); return; }
+  if (myDates.size === 0) { alert('Please select at least one date.'); return; }
+  if (myRests.size === 0) { alert('Please select at least one restaurant.'); return; }
   if (!name) { alert('Please enter your name.'); return; }
 
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.textContent = 'Saving…';
 
-  const { error } = await db.from('votes').insert({ name, date_choice: myDate, rest_choice: myRest });
+  const { error } = await db.from('votes').insert({
+    name,
+    date_choices: Array.from(myDates),
+    rest_choices: Array.from(myRests)
+  });
+
   if (error) {
     alert('Could not save your vote: ' + error.message);
     btn.disabled = false;
@@ -212,10 +215,10 @@ async function submitVote() {
 }
 
 function tally(rows) {
-  votes = { dates:{'14':0,'21':0,'28':0}, rests:[0,0] };
+  votes = { dates:{'14':0,'21':0,'28':0}, rests:[0,0], total: rows.length };
   rows.forEach(r => {
-    if (votes.dates[r.date_choice] !== undefined) votes.dates[r.date_choice]++;
-    if (r.rest_choice === 0 || r.rest_choice === 1) votes.rests[r.rest_choice]++;
+    (r.date_choices || []).forEach(d => { if (votes.dates[d] !== undefined) votes.dates[d]++; });
+    (r.rest_choices || []).forEach(i => { if (i === 0 || i === 1) votes.rests[i]++; });
   });
 }
 
@@ -231,15 +234,18 @@ function updateCounts() {
 }
 
 function updateBars() {
-  const dt = dateKeys.reduce((s,d) => s + votes.dates[d], 0);
+  const total = votes.total;
+  const voterLabel = total === 1 ? '1 voter' : total + ' voters';
+  document.getElementById('date-voter-count').textContent = voterLabel;
+  document.getElementById('rest-voter-count').textContent = voterLabel;
+
   dateKeys.forEach(d => {
-    const p = dt ? Math.round(votes.dates[d] / dt * 100) : 0;
+    const p = total ? Math.round(votes.dates[d] / total * 100) : 0;
     document.getElementById('bar-' + d).style.width = p + '%';
     document.getElementById('pct-' + d).textContent = p + '%';
   });
-  const rt = votes.rests.reduce((s,v) => s + v, 0);
   for (let i = 0; i < 2; i++) {
-    const p = rt ? Math.round(votes.rests[i] / rt * 100) : 0;
+    const p = total ? Math.round(votes.rests[i] / total * 100) : 0;
     document.getElementById('bar-r' + i).style.width = p + '%';
     document.getElementById('pct-r' + i).textContent = p + '%';
   }
@@ -263,13 +269,12 @@ async function init() {
     document.getElementById('thank-msg').style.display = 'block';
   }
 
-  const { data, error } = await db.from('votes').select('date_choice, rest_choice');
+  const { data, error } = await db.from('votes').select('date_choices, rest_choices');
   if (!error && data) refresh(data);
 
-  // Realtime: recount whenever any row is inserted
   db.channel('votes-changes')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, async () => {
-      const { data: rows } = await db.from('votes').select('date_choice, rest_choice');
+      const { data: rows } = await db.from('votes').select('date_choices, rest_choices');
       if (rows) refresh(rows);
     })
     .subscribe();
